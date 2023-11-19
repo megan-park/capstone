@@ -4,13 +4,13 @@
 # SKU : SEN0161
 */
 
-#define PWM1 5 // pH up solution
-#define PWM2 6 // pH down solution
+#define PWM1 9 // pH up solution
+#define PWM2 3 // pH down solution
 
 #define phSensorPin A0
 #define phOffset 0.05 // deviation compensate
 
-#define phTarget = 6; // set target pH
+#define phTarget 5.8 // set target pH
 
 int sensorValue = 0;
 unsigned long int avgValue;
@@ -63,9 +63,9 @@ void loop()
     delay(20);
 
     // PID constants
-    float kp = 36;
-    float kd = 0.000025;
-    float ki = 0.1;
+    float kp = 100;
+    float kd = 0.00001;
+    float ki = 0.3;
 
     // time difference
     long currT = micros();
@@ -90,6 +90,11 @@ void loop()
     {
         power = 255;
     }
+    else if (power < 76.5)
+    {
+        power = 0;
+    }
+
 
     // select which pump to control
     if (u < 0)
